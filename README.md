@@ -1,3 +1,5 @@
+![alt text](https://i.imgur.com/dkdS8MV.png)
+
 # Znov
 > The Znov project allows the management of the different members of a HighSchool in a global way.
 
@@ -11,10 +13,10 @@ The project includes the following features:
 ## Quick Start
 ```bash
 # Clone the project
-git clone https://github.com/MathieuDer/Znov-APi.git
+git clone https://github.com/MathieuDer/Znov-API.git
 
 # Go to the project folder
-cd Znov-APi
+cd Znov-API
 
 # Install dependencies
 npm install
@@ -25,9 +27,9 @@ npm start
 
 ## API Info
 ### Authors
-Edwin DZEMOVSKI   [Github](https://github.com/EdwinDZ)
-Mathieu DEROUICHE   [Github](https://github.com/MathieuDer)
-Sébastien OUALLET   [Github](https://github.com/SOuallet)
+* Edwin DZEMOVSKI   [Github](https://github.com/EdwinDZ)
+* Mathieu DEROUICHE   [Github](https://github.com/MathieuDer)
+* Sébastien OUALLET   [Github](https://github.com/SOuallet)
 
 ### License
 This project is licensed under the  Apache License.
