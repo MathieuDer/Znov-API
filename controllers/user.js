@@ -74,9 +74,10 @@ module.exports.registerUser = (req, res) => {
 };
 
 /**
- * 
+ * Connecte un utilisateur 
  * @param {*} req 
  * @param {*} res 
+ * Retourne le profil utilisateur avec son JsonWebToken
  */
 module.exports.authenticateUser = (req, res) => {
     var email_ecole = req.body.email_ecole;
@@ -120,6 +121,171 @@ module.exports.authenticateUser = (req, res) => {
         return res.status(500).json({ 
             success: false,
             message: 'Unable to verify user' 
+        });
+    });
+};
+
+/**
+ * Retourne la liste des utilisateurs sans leur mot de passe
+ * @param {*} req
+ * @param {*} res 
+ */
+module.exports.getAllUsers = (req, res) => {
+    models.User.findAll({
+        attributes: {
+            exclude: ['password']
+          }
+    })
+    .then( ( usersFound ) => {
+        if ( usersFound ) {
+            return res.status(201).json({ 
+                success: true,
+                totalUsers: usersFound.length,
+                user: usersFound
+            });
+        } else {
+            return res.status(409).json({ 
+                success: false,
+                message: 'No user found' 
+            });
+        }
+    })
+    .catch( (err) => {
+        console.log(err);
+        return res.status(500).json({ 
+            success: false,
+            message: 'Unable to find user'
+        });
+    });
+};
+
+/**
+ * Retourne un utilisateur grace à l'Id
+ * @param {*} req
+ * @param {*} res 
+ */
+module.exports.getUserProfile = (req, res) => {
+    models.User.findOne({
+        attributes: {
+            exclude: ['password']
+          },
+        where: { id: req.params.id }
+    })
+    .then( ( userFound ) => {
+        if ( userFound ) {
+            return res.status(201).json({ 
+                success: true,
+                user: userFound
+            });
+        } else {
+            return res.status(409).json({ 
+                success: false,
+                message: 'User can\'t be found' 
+            });
+        }
+    })
+    .catch( (err) => {
+        console.log(err);
+        return res.status(500).json({ 
+            success: false,
+            message: 'Unable to find user'
+        });
+    });
+};
+
+/**
+ * Met à jour un utilisateur grace à l'Id
+ * @param {*} req
+ * @param {*} res 
+ */
+module.exports.updateUserProfile = (req, res) => {
+
+    models.User.findById( req.params.id )
+    .then( ( userFound ) => {
+        if ( userFound ) {
+            models.User.update(
+                {
+                    prenom: req.body.prenom,
+                    nom: req.body.nom,
+                    email_perso: req.body.email_perso,
+                    email_ecole: req.body.email_ecole,
+                    password: req.body.password,
+                    telephone: req.body.telephone,
+                    adresse: req.body.adresse,
+                    date_naissance: req.body.date_naissance,
+                    ville_naissance: req.body.ville_naissance
+                },
+                {where: { id: req.params.id }
+            })
+            .then( (updatedUser) => {
+                return res.status(200).json({ 
+                    success: true,
+                    message: 'User updated successfully',
+                    updatedUser: updatedUser
+                })
+            })
+            .catch( (err) => {
+                console.log(err);
+                return res.status(500).json({ 
+                    success: false,
+                    message: 'Unable to update user'
+                })
+            }); 
+        } else {
+            return res.status(409).json({ 
+                success: false,
+                message: 'User can\'t be found' 
+            });
+        }
+    })
+    .catch( (err) => {
+        console.log(err);
+        return res.status(500).json({ 
+            success: false,
+            message: 'Unable to find user'
+        });
+    });
+};
+
+/**
+ * Supprime un utilisateur grace à l'Id
+ * @param {*} req
+ * @param {*} res 
+ */
+module.exports.deleteUserById = (req, res) => {
+    models.User.findOne({
+        where: { id: req.params.id }
+    })
+    .then( ( userFound ) => {
+        if ( userFound ) {
+            models.User.destroy({
+                where : {id: req.params.id}
+            })
+            .then( (deletedUser) => {
+                return res.status(200).json({ 
+                    success: true,
+                    message: 'User deleted',
+                    user: deletedUser
+                });
+            })
+            .catch( (err) => {
+                return res.status(500).json({ 
+                    success: false,
+                    message: 'Unable to delete user'
+                });
+            });
+
+        } else {
+            return res.status(409).json({ 
+                success: false,
+                message: 'User can\'t be found' 
+            });
+        }
+    })
+    .catch( (err) => {
+        return res.status(500).json({ 
+            success: false,
+            message: 'Unable to find user'
         });
     });
 };
