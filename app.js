@@ -9,6 +9,7 @@ var usersRouter = require('./routes/users');
 var schoolsRouter = require('./routes/ecoles');
 var classRouter = require('./routes/classes');
 var roomsRouter = require('./routes/salles');
+var rolesRouter = require('./routes/roles');
 
 // Instanciation du serveur express
 var app = express();
@@ -26,5 +27,6 @@ app.use('/users', usersRouter);
 app.use('/schools', schoolsRouter);
 app.use('/class', classRouter);
 app.use('/rooms', roomsRouter);
+app.use('/roles', rolesRouter);
 
 module.exports = app;

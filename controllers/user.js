@@ -24,8 +24,8 @@ module.exports.registerUser = (req, res) => {
     var adresse = req.body.adresse;
     var date_naissance = req.body.date_naissance;
     var ville_naissance = req.body.ville_naissance;
-    var classeId = "";
-    var roleId = "";
+    var classeId = req.body.classeId;
+    var roleId = req.body.roleId;
 
     // Vérifie la présence de l'utilisateur en base de données
     models.User.findOne({
@@ -43,7 +43,9 @@ module.exports.registerUser = (req, res) => {
                     telephone: telephone,
                     adresse: adresse,
                     date_naissance: date_naissance,
-                    ville_naissance: ville_naissance
+                    ville_naissance: ville_naissance,
+                    classeId: classeId,
+                    roleId: roleId
                 })
                 .then ( (newUser) => {
                     return res.status(200).json({ 
@@ -215,7 +217,9 @@ module.exports.updateUserProfile = (req, res) => {
                     telephone: req.body.telephone,
                     adresse: req.body.adresse,
                     date_naissance: req.body.date_naissance,
-                    ville_naissance: req.body.ville_naissance
+                    ville_naissance: req.body.ville_naissance,
+                    classeId: req.body.classeId,
+                    roleId: req.body.roleId
                 },
                 {where: { id: req.params.id }
             })
@@ -230,7 +234,8 @@ module.exports.updateUserProfile = (req, res) => {
                 console.log(err);
                 return res.status(500).json({ 
                     success: false,
-                    message: 'Unable to update user'
+                    message: 'Unable to update user',
+                    error: err
                 })
             }); 
         } else {
