@@ -7,6 +7,7 @@ var passport = require('passport');
 // Déclaration des routes 
 var usersRouter = require('./routes/users');
 var schoolsRouter = require('./routes/ecoles');
+var classRouter = require('./routes/classes');
 
 // Instanciation du serveur express
 var app = express();
@@ -22,5 +23,6 @@ require('./middlewares/passport');
 
 app.use('/users', usersRouter);
 app.use('/schools', schoolsRouter);
+app.use('/class', classRouter);
 
 module.exports = app;
