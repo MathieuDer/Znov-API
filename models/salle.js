@@ -7,11 +7,6 @@ module.exports = (sequelize, DataTypes) => {
     batiment: DataTypes.STRING
   }, {});
   Salle.associate = function(models) {
-    models.Salle.belongsTo(models.Cours, {
-      foreignKey: {
-        allowNull: false
-      }
-    })
     // associations can be defined here
   };
   return Salle;

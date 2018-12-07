@@ -8,44 +8,47 @@ const models = require('../models');
 
 
 /**
- * Enregistre une nouvelle Classe
+ * Enregistre une nouvelle Salle
  * @param {*} req 
  * @param {*} res 
  */
-module.exports.createClasse = (req, res) => {
+module.exports.createSalle = (req, res) => {
 
     // Récupération des informations utilisateur
-    var nom = req.body.nom;
-    var ecoleId = req.body.ecoleId;
+    var numero = req.body.numero;
+    var etage = req.body.etage;
+    var description = req.body.description;
+    var batiment = req.body.batiment;
 
     // Vérifie la présence de l'utilisateur en base de données
-    models.Classe.findOne({
-        where: { nom: nom }
+    models.Salle.findOne({
+        where: { numero: numero }
     })
-    .then( ( classeFound ) => {
-        if ( !classeFound ) {
-            var newClasse = models.Classe.create({
-                nom: nom,
-                ecoleId: ecoleId
-            }) 
-            .then ( (newClasse) => {
+    .then( ( ecoleFound ) => {
+        if ( !ecoleFound ) {
+            var newSalle = models.Salle.create({
+                numero: numero,
+                etage: etage,
+                description: description,
+                batiment: batiment
+            })
+            .then ( (newSalle) => {
                 return res.status(200).json({ 
-                    success: true,
-                    message: `Class ${newClasse.nom} correctly registered`
+                    'success': true,
+                    'message': `Room ${newSalle.numero} correctly registered`
                 })
             })
             .catch( (err) => {
-                console.log(err);
+                console.log(err);b
                 return res.status(500).json({ 
-                    success: false,
-                    message: 'Class can\'t be registered',
-                    error: err
+                    'success': false,
+                    'message': 'Room can\'t be registered'
                 })
             })
         } else {
             return res.status(409).json({ 
                 'success': false,
-                'message': 'Class already exist'
+                'message': 'Room already exist'
              });
         }
     })
@@ -53,29 +56,29 @@ module.exports.createClasse = (req, res) => {
         console.log(err);
         return res.status(500).json({ 
             'success': false,
-            'message': 'Unable to verify class'
+            'message': 'Unable to verify room'
         });
     });
 };
 
 /**
- * Retourne la liste des écoles
+ * Retourne la liste des salles
  * @param {*} req
  * @param {*} res 
  */
-module.exports.getAllClasse = (req, res) => {
-    models.Classe.findAll()
-    .then( ( ClassesFound ) => {
-        if ( ClassesFound ) {
+module.exports.getAllSalle = (req, res) => {
+    models.Salle.findAll()
+    .then( ( SallesFound ) => {
+        if ( SallesFound ) {
             return res.status(201).json({ 
                 success: true,
-                totalClasss: ClassesFound.length,
-                classs: ClassesFound
+                totalRooms: SallesFound.length,
+                rooms: SallesFound
             });
         } else {
             return res.status(409).json({ 
                 success: false,
-                message: 'No class found' 
+                message: 'No room found' 
             });
         }
     })
@@ -83,30 +86,30 @@ module.exports.getAllClasse = (req, res) => {
         console.log(err);
         return res.status(500).json({ 
             success: false,
-            message: 'Unable to find class'
+            message: 'Unable to find room'
         });
     });
 };
 
 /**
- * Retourne une école grace à l'Id
+ * Retourne une salle grace à l'Id
  * @param {*} req
  * @param {*} res 
  */
-module.exports.getClasse = (req, res) => {
-    models.Classe.findOne({
+module.exports.getSalle = (req, res) => {
+    models.Salle.findOne({
         where: { id: req.params.id }
     })
-    .then( ( classeFound ) => {
-        if ( classeFound ) {
+    .then( ( ecoleFound ) => {
+        if ( ecoleFound ) {
             return res.status(201).json({ 
                 success: true,
-                class: classeFound
+                room: ecoleFound
             });
         } else {
             return res.status(409).json({ 
                 success: false,
-                message: 'Class can\'t be found' 
+                message: 'Room can\'t be found' 
             });
         }
     })
@@ -114,43 +117,48 @@ module.exports.getClasse = (req, res) => {
         console.log(err);
         return res.status(500).json({ 
             success: false,
-            message: 'Unable to find class'
+            message: 'Unable to find room'
         });
     });
 };
 
 /**
- * Met à jour une école grace à l'Id
+ * Met à jour une salle grace à l'Id
  * @param {*} req
  * @param {*} res 
  */
-module.exports.updateClasse = (req, res) => {
+module.exports.updateSalle = (req, res) => {
 
-    models.Classe.findById( req.params.id )
-    .then( ( classeFound ) => {
-        if ( classeFound ) {
-            models.Classe.update(
-                { nom: req.body.nom, },
+    models.Salle.findById( req.params.id )
+    .then( ( ecoleFound ) => {
+        if ( ecoleFound ) {
+            models.Salle.update(
+                { 
+                    numero: req.body.numero,
+                    etage: req.body.etage,
+                    description: req.body.description,
+                    batiment: req.body.batiment
+                },
                 { where: { id: req.params.id } }
             )
-            .then( (updatedClasse) => {
+            .then( (updatedSalle) => {
                 return res.status(200).json({ 
                     success: true,
-                    message: 'Class updated successfully',
-                    updatedClass: updatedClasse
+                    message: 'Room updated successfully',
+                    updatedRoom: updatedSalle
                 })
             })
             .catch( (err) => {
                 console.log(err);
                 return res.status(500).json({ 
                     success: false,
-                    message: 'Unable to update class'
+                    message: 'Unable to update room'
                 })
             }); 
         } else {
             return res.status(409).json({ 
                 success: false,
-                message: 'Class can\'t be found' 
+                message: 'Room can\'t be found' 
             });
         }
     })
@@ -164,44 +172,44 @@ module.exports.updateClasse = (req, res) => {
 };
 
 /**
- * Supprime une école grace à l'Id
+ * Supprime une salle grace à l'Id
  * @param {*} req
  * @param {*} res 
  */
-module.exports.deleteClasseById = (req, res) => {
-    models.Classe.findOne({
+module.exports.deleteSalleById = (req, res) => {
+    models.Salle.findOne({
         where: { id: req.params.id }
     })
-    .then( ( classeFound ) => {
-        if ( classeFound ) {
-            models.Classe.destroy({
+    .then( ( ecoleFound ) => {
+        if ( ecoleFound ) {
+            models.Salle.destroy({
                 where : {id: req.params.id}
             })
-            .then( (deletedClasse) => {
+            .then( (deletedSalle) => {
                 return res.status(200).json({ 
                     success: true,
-                    message: 'Class deleted',
-                    class: deletedClasse
+                    message: 'Room deleted',
+                    room: deletedSalle
                 });
             })
             .catch( (err) => {
                 return res.status(500).json({ 
                     success: false,
-                    message: 'Unable to delete class'
+                    message: 'Unable to delete room'
                 });
             });
 
         } else {
             return res.status(409).json({ 
                 success: false,
-                message: 'Class can\'t be found' 
+                message: 'Room can\'t be found' 
             });
         }
     })
     .catch( (err) => {
         return res.status(500).json({ 
             success: false,
-            message: 'Unable to find class'
+            message: 'Unable to find room'
         });
     });
 };
