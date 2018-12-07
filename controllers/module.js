@@ -6,7 +6,6 @@ const jwt = require('jsonwebtoken');
 // Appel des models
 const models = require('../models');
 
-
 //affiche les modules
 module.exports.getAllModules= (req, res) => {
     models.Module.findAll({
@@ -14,8 +13,6 @@ module.exports.getAllModules= (req, res) => {
           }
     })
 };
-
-
 
 //Creer intitule module 
 module.exports.createModule= (req, res) => {
@@ -35,7 +32,6 @@ module.exports.updateModule= (req, res) => {
           }
     })
 };
-
 
 //Update module 
 module.exports.deleteModule= (req, res) => {
