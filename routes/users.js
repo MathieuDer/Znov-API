@@ -7,21 +7,21 @@ const passport = require('passport');
 const UserController = require('../controllers/user');
 
 /* Register */
-router.post('/register', (req, res, next) => { UserController.registerUser(req, res); });
+router.post('/register', UserController.registerUser);
 
 /* Login */
-router.post('/login', (req, res, next) => { UserController.authenticateUser(req, res); });
+router.post('/login', UserController.authenticateUser);
 
 /* Get All Users */
-router.get('/', passport.authenticate('jwt', { session: false }), (req, res, next) => { UserController.getAllUsers(req, res); });
+router.get('/', passport.authenticate('jwt', { session: false }), UserController.getAllUsers);
 
 /* Get Profile */
-router.get('/profiles/:id', passport.authenticate('jwt', { session: false }), (req, res, next) => { UserController.getUserProfile(req, res); });
+router.get('/profiles/:id', passport.authenticate('jwt', { session: false }), UserController.getUserProfile);
 
 /* Update User */
-router.put('/profiles/:id', passport.authenticate('jwt', { session: false }), (req, res, next) => { UserController.updateUserProfile(req, res); });
+router.put('/profiles/:id', passport.authenticate('jwt', { session: false }), UserController.updateUserProfile);
 
 /* Delete User */
-router.delete('/profiles/:id', passport.authenticate('jwt', { session: false }), (req, res, next) => { UserController.deleteUserById(req, res); });
+router.delete('/profiles/:id', passport.authenticate('jwt', { session: false }), UserController.deleteUserById);
 
 module.exports = router;

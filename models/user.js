@@ -22,11 +22,6 @@ module.exports = (sequelize, DataTypes) => {
       as: 'role',
       foreignKey:'id',
       constraints: false
-    }),
-    User.belongsTo(models.Cours, {
-      foreignKey: {
-        allowNull: false
-      }
     });
   };
 

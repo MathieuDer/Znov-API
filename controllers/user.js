@@ -24,6 +24,8 @@ module.exports.registerUser = (req, res) => {
     var adresse = req.body.adresse;
     var date_naissance = req.body.date_naissance;
     var ville_naissance = req.body.ville_naissance;
+    var classeId = "";
+    var roleId = "";
 
     // Vérifie la présence de l'utilisateur en base de données
     models.User.findOne({
