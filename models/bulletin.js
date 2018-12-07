@@ -1,12 +1,12 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const bulletin = sequelize.define('bulletin', {
+  const Bulletin = sequelize.define('Bulletin', {
     note: DataTypes.FLOAT
   }, {});
-  bulletin.associate = function(models) {
+  Bulletinc.associate = function(models) {
     // associations can be defined here
     
   };
 
-  return bulletin;
+  return Bulletin;
 };

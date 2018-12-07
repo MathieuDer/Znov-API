@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     fin: DataTypes.DATE
   }, {});
   Cours.associate = function(models) {
-    models.Cours.belongsTo(models.Matiere, {
+    Cours.belongsTo(models.Matiere, {
       foreignKey: {
         allowNull: false
       }
@@ -16,12 +16,12 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey:'id',
       constraints: false
     }),
-    Cours.hasMany(models.User, {
+    Cours.hasOne(models.User, {
       as: 'intervenant',
       foreignKey:'id',
       constraints: false
     }),
-    Cours.hasMany(models.Bulletin, {
+    models.Cours.hasMany(models.Bulletin, {
       as: 'bulletin',
       foreignKey:'id',
       constraints: false

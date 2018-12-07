@@ -53,7 +53,7 @@ module.exports = {
         }
       },
       classeId: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.INTEGER,
         references:{
           model:'Classes',
