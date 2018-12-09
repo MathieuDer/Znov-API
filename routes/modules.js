@@ -1,22 +1,29 @@
 var express = require('express');
 var router = express.Router();
-
 const passport = require('passport');
 
 // Appel des controllers
-const UserController = require('../controllers/module');
+const ModuleController = require('../controllers/module');
 
 /* Get All Modules */
-router.get();
+router.get('/', ModuleController.getAllModules);
+//router.get('/profiles/:id', passport.authenticate('jwt', { session: false }), ModuleController.getAllModules);
+
+/* Get one module */
+router.get('/:id', ModuleController.getModuleProfile);
+//router.get('/profiles/:id', passport.authenticate('jwt', { session: false }), ModuleController.getModuleProfile);
 
 /* Create module */
-router.post('/register', (req, res, next) => { UserController.registerUser(req, res); });
+router.post('/', ModuleController.createModule);
+//router.post('/register', ModuleController.createModule);
 
 /* Update Module */
-router.put('/profiles/:id', passport.authenticate('jwt', { session: false }), (req, res, next) => { UserController.updateUserProfile(req, res); });
+router.put('/:id', ModuleController.updateModule);
+//router.put('/profiles/:id', passport.authenticate('jwt', { session: false }), ModuleController.updateModule);
 
 /* Delete Module */
-router.delete('/profiles/:id', passport.authenticate('jwt', { session: false }), (req, res, next) => { UserController.deleteUserById(req, res); });
+router.delete('/:id', ModuleController.deleteModule);
+//router.delete('/profiles/:id', passport.authenticate('jwt', { session: false }), ModuleController.deleteModule);
 
 
 module.exports = router;

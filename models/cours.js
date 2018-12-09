@@ -1,16 +1,16 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Cours = sequelize.define('Cours', {
-    intitule: DataTypes.DATE,
+    intitule: DataTypes.STRING,
     debut: DataTypes.DATE,
     fin: DataTypes.DATE
   }, {});
   Cours.associate = function(models) {
-    Cours.belongsTo(models.Matiere, {
+    /*Cours.belongsTo(models.Matiere, {
       foreignKey: {
         allowNull: false
       }
-    }),
+    }),*/
     Cours.hasOne(models.Salle, {
       as: 'salle',
       foreignKey:'id',
