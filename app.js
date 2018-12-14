@@ -11,8 +11,9 @@ var classRouter = require('./routes/classes');
 var roomsRouter = require('./routes/salles');
 var rolesRouter = require('./routes/roles');
 var modulesRouter = require('./routes/modules');
-var matieresRouter = require('./routes/matieres');
-var coursRouter = require('./routes/cours');
+var subjectsRouter = require('./routes/matieres');
+var lessonsRouter = require('./routes/cours');
+var reportsRouter = require('./routes/bulletins');
 
 // Instanciation du serveur express
 var app = express();
@@ -26,13 +27,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Import des midlewares
 require('./middlewares/passport');
 
+// Associations des routes à leur fichier router
 app.use('/users', usersRouter);
 app.use('/schools', schoolsRouter);
 app.use('/class', classRouter);
 app.use('/rooms', roomsRouter);
 app.use('/roles', rolesRouter);
 app.use('/modules', modulesRouter);
-app.use('/matieres', matieresRouter);
-app.use('/cours', coursRouter);
+app.use('/subjects', subjectsRouter);
+app.use('/lessons', lessonsRouter);
+app.use('/reports', reportsRouter);
 
 module.exports = app;

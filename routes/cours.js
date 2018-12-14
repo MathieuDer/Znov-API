@@ -3,7 +3,7 @@ var router = express.Router();
 const passport = require('passport');
 
 // Appel des controllers
-const CoursController = require('../controllers/cour');
+const CoursController = require('../controllers/cours');
 
 /* Get All Modules */
 router.get('/', CoursController.getAllCours);

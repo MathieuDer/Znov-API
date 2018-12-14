@@ -10,7 +10,7 @@ router.get('/', MatiereController.getAllMatiere);
 // router.get('/profiles/:id', passport.authenticate('jwt', { session: false }), MatiereController.getAllMatiere);
 
 /* Get one Matiere */
-router.get('/:id', MatiereController.getMatiereProfile);
+router.get('/:id', MatiereController.getMatiere);
 //router.get('/profiles/:id', passport.authenticate('jwt', { session: false }), MatiereController.getMatiereProfile);
 
 /* Create Matiere */

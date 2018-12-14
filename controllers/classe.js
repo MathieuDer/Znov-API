@@ -1,24 +1,22 @@
 // Appel des variables d'environnement
 require('dotenv').config();
-// Appel des packages
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+
 // Appel des models
 const models = require('../models');
 
 
 /**
- * Enregistre une nouvelle Classe
+ * Enregistre une nouvelle classe
  * @param {*} req 
  * @param {*} res 
  */
 module.exports.createClasse = (req, res) => {
 
-    // Récupération des informations utilisateur
+    // Récupération des informations de la classe
     var nom = req.body.nom;
     var ecoleId = req.body.ecoleId;
 
-    // Vérifie la présence de l'utilisateur en base de données
+    // Vérifie la présence de la classe en base de données
     models.Classe.findOne({
         where: { nom: nom }
     })
@@ -38,39 +36,39 @@ module.exports.createClasse = (req, res) => {
                 console.log(err);
                 return res.status(500).json({ 
                     success: false,
-                    message: 'Class can\'t be registered',
-                    error: err
+                    message: 'Class can\'t be registered'
                 })
             })
         } else {
             return res.status(409).json({ 
-                'success': false,
-                'message': 'Class already exist'
+                success: false,
+                message: 'Class already exist'
              });
         }
     })
     .catch( (err) => {
         console.log(err);
         return res.status(500).json({ 
-            'success': false,
-            'message': 'Unable to verify class'
+            success: false,
+            message: 'Unable to verify class'
         });
     });
 };
 
 /**
- * Retourne la liste des écoles
+ * Retourne la liste des classes
  * @param {*} req
  * @param {*} res 
  */
 module.exports.getAllClasse = (req, res) => {
+    
     models.Classe.findAll()
     .then( ( ClassesFound ) => {
         if ( ClassesFound ) {
             return res.status(201).json({ 
                 success: true,
                 totalClasss: ClassesFound.length,
-                classs: ClassesFound
+                class: ClassesFound
             });
         } else {
             return res.status(409).json({ 
@@ -89,11 +87,12 @@ module.exports.getAllClasse = (req, res) => {
 };
 
 /**
- * Retourne une école grace à l'Id
+ * Retourne une classe grace à l'Id
  * @param {*} req
  * @param {*} res 
  */
 module.exports.getClasse = (req, res) => {
+
     models.Classe.findOne({
         where: { id: req.params.id }
     })
@@ -120,7 +119,7 @@ module.exports.getClasse = (req, res) => {
 };
 
 /**
- * Met à jour une école grace à l'Id
+ * Met à jour une classe grace à l'Id
  * @param {*} req
  * @param {*} res 
  */
@@ -158,17 +157,18 @@ module.exports.updateClasse = (req, res) => {
         console.log(err);
         return res.status(500).json({ 
             success: false,
-            message: 'Unable to find user'
+            message: 'Unable to find class'
         });
     });
 };
 
 /**
- * Supprime une école grace à l'Id
+ * Supprime une classe grace à l'Id
  * @param {*} req
  * @param {*} res 
  */
 module.exports.deleteClasseById = (req, res) => {
+
     models.Classe.findOne({
         where: { id: req.params.id }
     })
@@ -181,7 +181,7 @@ module.exports.deleteClasseById = (req, res) => {
                 return res.status(200).json({ 
                     success: true,
                     message: 'Class deleted',
-                    class: deletedClasse
+                    class: classeFound
                 });
             })
             .catch( (err) => {

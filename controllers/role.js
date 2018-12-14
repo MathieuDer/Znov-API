@@ -1,8 +1,6 @@
 // Appel des variables d'environnement
 require('dotenv').config();
-// Appel des packages
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+
 // Appel des models
 const models = require('../models');
 
@@ -28,29 +26,29 @@ module.exports.createRole = (req, res) => {
             })
             .then ( (newRole) => {
                 return res.status(200).json({ 
-                    'success': true,
-                    'message': `Role ${newRole.nom} correctly registered`
+                    success: true,
+                    message: `Role ${newRole.nom} correctly registered`
                 })
             })
             .catch( (err) => {
                 console.log(err);b
                 return res.status(500).json({ 
-                    'success': false,
-                    'message': 'Role can\'t be registered'
+                    success: false,
+                    message: 'Role can\'t be registered'
                 })
             })
         } else {
             return res.status(409).json({ 
-                'success': false,
-                'message': 'Role already exist'
+                success: false,
+                message: 'Role already exist'
              });
         }
     })
     .catch( (err) => {
         console.log(err);
         return res.status(500).json({ 
-            'success': false,
-            'message': 'Unable to verify role'
+            success: false,
+            message: 'Unable to verify role'
         });
     });
 };
@@ -127,9 +125,7 @@ module.exports.updateRole = (req, res) => {
     .then( ( roleFound ) => {
         if ( roleFound ) {
             models.Role.update(
-                { 
-                    nom: req.body.nom,
-                },
+                { nom: req.body.nom },
                 { where: { id: req.params.id } }
             )
             .then( (updatedRole) => {
@@ -180,7 +176,7 @@ module.exports.deleteRoleById = (req, res) => {
                 return res.status(200).json({ 
                     success: true,
                     message: 'Role deleted',
-                    role: deletedRole
+                    role: roleFound
                 });
             })
             .catch( (err) => {

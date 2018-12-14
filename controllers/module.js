@@ -1,88 +1,19 @@
 // Appel des variables d'environnement
 require('dotenv').config();
-// Appel des packages
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+
 // Appel des models
 const models = require('../models');
 
 /**
- * Retourne un module grace à l'Id
- * @param {*} req
- * @param {*} res 
- */
-module.exports.getModuleProfile = (req, res) => {
-    models.Module.findOne({
-        attributes: {
-          },
-        where: { id: req.params.id }
-    })
-    .then( ( modulesFound ) => {
-        if ( modulesFound ) {
-            return res.status(201).json({ 
-                success: true,
-                user: modulesFound
-            });
-        } else {
-            return res.status(409).json({ 
-                success: false,
-                message: 'Module can\'t be found' 
-            });
-        }
-    })
-    .catch( (err) => {
-        console.log(err);
-        return res.status(500).json({ 
-            success: false,
-            message: 'Unable to find module'
-        });
-    });
-};
-
-/**
- * affiche les modules
- * @param {*} req
- * @param {*} res
- */
-module.exports.getAllModules= (req, res) => {
-var intitule = req.body.intitule;
-
-    models.Module.findAll({
-        attributes: {
-          }
-    })
-    .then( ( modulesFound ) => {
-        if ( modulesFound ) {
-            return res.status(201).json({ 
-                success: true,
-                totalModules: modulesFound.length,
-                user: modulesFound
-            });
-        } else {
-            return res.status(409).json({ 
-                success: false,
-                message: 'No module found' 
-            });
-        }
-    })
-    .catch( (err) => {
-        console.log(err);
-        return res.status(500).json({ 
-            success: false,
-            message: 'Unable to find module'
-        });
-    });
-};
-
-
-
-/**
- * Creer intitule module
+ * Enregistre un nouveau module
  * @param {*} req 
  * @param {*} res 
  */
 module.exports.createModule= (req, res) => {
+    
+    // Récupération des informations du module
     var intitule = req.body.intitule;
+    
     models.Module.findOne({
         where: {intitule: intitule}
     })
@@ -123,13 +54,76 @@ module.exports.createModule= (req, res) => {
 };
 
 /**
- * Update module
+ * Retourne la liste des modules
+ * @param {*} req
+ * @param {*} res
+ */
+module.exports.getAllModules= (req, res) => {
+    
+        models.Module.findAll()
+        .then( ( modulesFound ) => {
+            if ( modulesFound ) {
+                return res.status(201).json({ 
+                    success: true,
+                    totalModules: modulesFound.length,
+                    module: modulesFound
+                });
+            } else {
+                return res.status(409).json({ 
+                    success: false,
+                    message: 'No module found' 
+                });
+            }
+        })
+        .catch( (err) => {
+            console.log(err);
+            return res.status(500).json({ 
+                success: false,
+                message: 'Unable to find module'
+            });
+        });
+    };
+
+/**
+ * Retourne un module grace à l'Id
+ * @param {*} req
+ * @param {*} res 
+ */
+module.exports.getModule = (req, res) => {
+
+    models.Module.findOne({
+        where: { id: req.params.id }
+    })
+    .then( ( modulesFound ) => {
+        if ( modulesFound ) {
+            return res.status(201).json({ 
+                success: true,
+                module: modulesFound
+            });
+        } else {
+            return res.status(409).json({ 
+                success: false,
+                message: 'Module can\'t be found' 
+            });
+        }
+    })
+    .catch( (err) => {
+        console.log(err);
+        return res.status(500).json({ 
+            success: false,
+            message: 'Unable to find module'
+        });
+    });
+};
+
+/**
+ * Met à jour un module grace à l'Id
  * @param {*} req 
  * @param {*} res 
  */
 module.exports.updateModule= (req, res) => {
 
-    models.Module.findById(req.params.id )
+    models.Module.findById(req.params.id)
     .then( ( modulesFound ) => {
         if ( modulesFound ) {
             models.Module.update(
@@ -142,7 +136,7 @@ module.exports.updateModule= (req, res) => {
                 return res.status(200).json({ 
                     success: true,
                     message: 'Module updated successfully',
-                    updatedUser: updatedModule
+                    updatedModule: updatedModule
                 })
             })
             .catch( (err) => {
@@ -168,9 +162,8 @@ module.exports.updateModule= (req, res) => {
     });
 };
 
-
 /**
- * Supprimer module
+ * Supprime un module grace à l'Id
  * @param {*} req 
  * @param {*} res 
  */
@@ -187,7 +180,7 @@ module.exports.deleteModule= (req, res) => {
                 return res.status(200).json({ 
                     success: true,
                     message: 'Module deleted',
-                    user: deletedModule
+                    module: modulesFound
                 });
             })
             .catch( (err) => {

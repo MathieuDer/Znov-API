@@ -27,6 +27,9 @@ module.exports.registerUser = (req, res) => {
     var classeId = req.body.classeId;
     var roleId = req.body.roleId;
 
+    if (classeId == ""){ classeId = null } 
+    if (roleId == ""){ roleId = null } 
+
     // Vérifie la présence de l'utilisateur en base de données
     models.User.findOne({
         where: { email_ecole: email_ecole }
@@ -49,30 +52,30 @@ module.exports.registerUser = (req, res) => {
                 })
                 .then ( (newUser) => {
                     return res.status(200).json({ 
-                        'success': true,
-                        'message': `User ${newUser.email_ecole} correctly registered`
+                        success: true,
+                        message: `User ${newUser.email_ecole} correctly registered`
                     })
                 })
                 .catch( (err) => {
                     console.log(err);
                     return res.status(500).json({ 
-                        'success': false,
-                        'message': 'User can\'t be registered'
+                        success: false,
+                        message: 'User can\'t be registered'
                     })
                 })
             })
         } else {
             return res.status(409).json({ 
-                'success': false,
-                'message': 'User already exist'
+                success: false,
+                message: 'User already exist'
              });
         }
     })
     .catch( (err) => {
         console.log(err);
         return res.status(500).json({ 
-            'success': false,
-            'message': 'Unable to verify user'
+            success: false,
+            message: 'Unable to verify user'
         });
     });
 };
@@ -138,7 +141,7 @@ module.exports.getAllUsers = (req, res) => {
     models.User.findAll({
         attributes: {
             exclude: ['password']
-          }
+        }
     })
     .then( ( usersFound ) => {
         if ( usersFound ) {
@@ -172,7 +175,7 @@ module.exports.getUserProfile = (req, res) => {
     models.User.findOne({
         attributes: {
             exclude: ['password']
-          },
+        },
         where: { id: req.params.id }
     })
     .then( ( userFound ) => {
@@ -221,7 +224,7 @@ module.exports.updateUserProfile = (req, res) => {
                     classeId: req.body.classeId,
                     roleId: req.body.roleId
                 },
-                {where: { id: req.params.id }
+                { where: { id: req.params.id }
             })
             .then( (updatedUser) => {
                 return res.status(200).json({ 
@@ -272,7 +275,7 @@ module.exports.deleteUserById = (req, res) => {
                 return res.status(200).json({ 
                     success: true,
                     message: 'User deleted',
-                    user: deletedUser
+                    user: userFound
                 });
             })
             .catch( (err) => {

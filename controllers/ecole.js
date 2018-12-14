@@ -1,11 +1,8 @@
 // Appel des variables d'environnement
 require('dotenv').config();
-// Appel des packages
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+
 // Appel des models
 const models = require('../models');
-
 
 /**
  * Enregistre une nouvelle Ecole
@@ -14,10 +11,10 @@ const models = require('../models');
  */
 module.exports.createEcole = (req, res) => {
 
-    // Récupération des informations utilisateur
+    // Récupération des informations de l'école
     var nom = req.body.nom;
 
-    // Vérifie la présence de l'utilisateur en base de données
+    // Vérifie la présence de l'école en base de données
     models.Ecole.findOne({
         where: { nom: nom }
     })
@@ -28,29 +25,29 @@ module.exports.createEcole = (req, res) => {
             })
             .then ( (newEcole) => {
                 return res.status(200).json({ 
-                    'success': true,
-                    'message': `School ${newEcole.nom} correctly registered`
+                    success: true,
+                    message: `School ${newEcole.nom} correctly registered`
                 })
             })
             .catch( (err) => {
                 console.log(err);
                 return res.status(500).json({ 
-                    'success': false,
-                    'message': 'School can\'t be registered'
+                    success: false,
+                    message: 'School can\'t be registered'
                 })
             })
         } else {
             return res.status(409).json({ 
-                'success': false,
-                'message': 'School already exist'
+                success: false,
+                message: 'School already exist'
              });
         }
     })
     .catch( (err) => {
         console.log(err);
         return res.status(500).json({ 
-            'success': false,
-            'message': 'School to verify user'
+            success: false,
+            message: 'Unable to verify school'
         });
     });
 };
@@ -155,7 +152,7 @@ module.exports.updateEcole = (req, res) => {
         console.log(err);
         return res.status(500).json({ 
             success: false,
-            message: 'Unable to find user'
+            message: 'Unable to find school'
         });
     });
 };
@@ -178,7 +175,7 @@ module.exports.deleteEcoleById = (req, res) => {
                 return res.status(200).json({ 
                     success: true,
                     message: 'School deleted',
-                    school: deletedEcole
+                    school: ecoleFound
                 });
             })
             .catch( (err) => {

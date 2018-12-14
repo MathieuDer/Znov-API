@@ -10,7 +10,7 @@ router.get('/', ModuleController.getAllModules);
 //router.get('/profiles/:id', passport.authenticate('jwt', { session: false }), ModuleController.getAllModules);
 
 /* Get one module */
-router.get('/:id', ModuleController.getModuleProfile);
+router.get('/:id', ModuleController.getModule);
 //router.get('/profiles/:id', passport.authenticate('jwt', { session: false }), ModuleController.getModuleProfile);
 
 /* Create module */

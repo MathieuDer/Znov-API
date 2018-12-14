@@ -1,132 +1,124 @@
 // Appel des variables d'environnement
 require('dotenv').config();
-// Appel des packages
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+
 // Appel des models
 const models = require('../models');
 
 /**
- * Retourne un module grace à l'Id
- * @param {*} req
- * @param {*} res 
- */
-module.exports.getMatiereProfile = (req, res) => {
-    models.Matiere.findOne({
-        attributes: {
-          },
-        where: { id: req.params.id }
-    })
-    .then( ( matiereFound ) => {
-        if ( matiereFound ) {
-            return res.status(201).json({ 
-                success: true,
-                user: matiereFound
-            });
-        } else {
-            return res.status(409).json({ 
-                success: false,
-                message: 'Matiere can\'t be found' 
-            });
-        }
-    })
-    .catch( (err) => {
-        console.log(err);
-        return res.status(500).json({ 
-            success: false,
-            message: 'Unable to find Matiere'
-        });
-    });
-};
-
-/**
- * affiche les modules
- * @param {*} req
- * @param {*} res
- */
-module.exports.getAllMatiere= (req, res) => {
-var intitule = req.body.intitule;
-var moduleId = req.body.moduleId;
-
-    models.Matiere.findAll({
-        attributes: {
-          }
-    })
-    .then( ( matiereFound ) => {
-        if ( matiereFound ) {
-            return res.status(201).json({ 
-                success: true,
-                totalMatiere: matiereFound.length,
-                user: matiereFound
-            });
-        } else {
-            return res.status(409).json({ 
-                success: false,
-                message: 'No matiere found' 
-            });
-        }
-    })
-    .catch( (err) => {
-        console.log(err);
-        return res.status(500).json({ 
-            success: false,
-            message: 'Unable to find matiere'
-        });
-    });
-};
-
-
-
-/**
- * Creer intitule module
+ * Enregistre une nouvelle Matière
  * @param {*} req 
  * @param {*} res 
  */
 module.exports.createMatiere= (req, res) => {
+
+    // Récupération des informations de la matière
     var intitule = req.body.intitule;
     var moduleId = req.body.moduleId;
 
+    // Vérifie la présence de la matière en base de données
     models.Matiere.findOne({
-        where: {intitule:intitule}
+        where: { intitule: intitule }
     })
     .then( ( matiereFound ) => {
         if ( !matiereFound ) {
-            
                 var newMatiere = models.Matiere.create({
-                    intitule: intitule
+                    intitule: intitule,
+                    moduleId: moduleId
                 })
                 .then ( (newMatiere) => {
                     return res.status(200).json({ 
-                        'success': true,
-                        'message': `Matiere ${newMatiere.intitule} correctly registered`
+                        success: true,
+                        message: `Subject ${newMatiere.intitule} correctly registered`
                     })
                 })
                 .catch( (err) => {
                     console.log(err);
                     return res.status(500).json({ 
-                        'success': false,
-                        'message': 'Matiere can\'t be registered'
+                        success: false,
+                        message: 'Subject can\'t be registered'
                     })
                 })
         } else {
             return res.status(409).json({ 
-                'success': false,
-                'message': 'Matiere already exist'
+                success: false,
+                message: 'Subject already exist'
              });
         }
     })
     .catch( (err) => {
         console.log(err);
         return res.status(500).json({ 
-            'success': false,
-            'message': 'Unable to verify Matiere'
+            success: false,
+            message: 'Unable to verify Subject'
         });
     });
 
 };
 
 /**
- * Update module
+ * Retourne la liste des Matières
+ * @param {*} req
+ * @param {*} res
+ */
+module.exports.getAllMatiere= (req, res) => {
+
+    models.Matiere.findAll()
+    .then( ( matiereFound ) => {
+        if ( matiereFound ) {
+            return res.status(201).json({ 
+                success: true,
+                totalMatiere: matiereFound.length,
+                matiere: matiereFound
+            });
+        } else {
+            return res.status(409).json({ 
+                success: false,
+                message: 'No subject found' 
+            });
+        }
+    })
+    .catch( (err) => {
+        console.log(err);
+        return res.status(500).json({ 
+            success: false,
+            message: 'Unable to find subject'
+        });
+    });
+};
+
+/**
+ * Retourne une matière grace à l'Id
+ * @param {*} req
+ * @param {*} res 
+ */
+module.exports.getMatiere = (req, res) => {
+    models.Matiere.findOne({
+        where: { id: req.params.id }
+    })
+    .then( ( matiereFound ) => {
+        if ( matiereFound ) {
+            return res.status(201).json({ 
+                success: true,
+                matiere: matiereFound
+            });
+        } else {
+            return res.status(409).json({ 
+                success: false,
+                message: 'Subject can\'t be found' 
+            });
+        }
+    })
+    .catch( (err) => {
+        console.log(err);
+        return res.status(500).json({ 
+            success: false,
+            message: 'Unable to find Subject'
+        });
+    });
+};
+
+/**
+ * Met à jour une matière grace à l'Id
  * @param {*} req 
  * @param {*} res 
  */
@@ -140,28 +132,29 @@ module.exports.updateMatiere= (req, res) => {
         if ( matiereFound ) {
             models.Matiere.update(
                 {
-                    intitule: req.body.intitule
+                    intitule: intitule,
+                    moduleId: moduleId
                 },
                 {where: { id: req.params.id }
             })
             .then( (updatedMatiere) => {
                 return res.status(200).json({ 
                     success: true,
-                    message: 'Matiere updated successfully',
-                    updatedUser: updatedMatiere
+                    message: 'Subject updated successfully',
+                    updatedMatiere: updatedMatiere
                 })
             })
             .catch( (err) => {
                 console.log(err);
                 return res.status(500).json({ 
                     success: false,
-                    message: 'Unable to update Matiere'
+                    message: 'Unable to update Subject'
                 })
             }); 
         } else {
             return res.status(409).json({ 
                 success: false,
-                message: 'Matiere can\'t be found' 
+                message: 'Subject can\'t be found' 
             });
         }
     })
@@ -169,21 +162,17 @@ module.exports.updateMatiere= (req, res) => {
         console.log(err);
         return res.status(500).json({ 
             success: false,
-            message: 'Unable to find matiere'
+            message: 'Unable to find subject'
         });
     });
 };
 
-
 /**
- * Supprimer module
+ * Supprime une matière grace à l'Id
  * @param {*} req 
  * @param {*} res 
  */
 module.exports.deleteMatiere= (req, res) => {
-
-    var intitule = req.body.intitule;
-    var moduleId = req.body.moduleId;
 
     models.Matiere.findOne({
         where: { id: req.params.id }
@@ -196,21 +185,21 @@ module.exports.deleteMatiere= (req, res) => {
             .then( (deletedMatiere)=> {
                 return res.status(200).json({ 
                     success: true,
-                    message: 'Matiere deleted',
-                    user: deletedMatiere
+                    message: 'Subject deleted',
+                    matiere: matiereFound
                 });
             })
             .catch( (err) => {
                 return res.status(500).json({ 
                     success: false,
-                    message: 'Unable to delete matiere'
+                    message: 'Unable to delete subject'
                 });
             });
 
         } else {
             return res.status(409).json({ 
                 success: false,
-                message: 'Matiere can\'t be found' 
+                message: 'Subject can\'t be found' 
             });
         }
     })

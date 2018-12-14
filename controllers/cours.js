@@ -1,78 +1,58 @@
 // Appel des variables d'environnement
 require('dotenv').config();
-// Appel des packages
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+
 // Appel des models
 const models = require('../models');
 
 
 /**
- * Enregistre une nouvelle Ecole
+ * Enregistre une nouvelle Cours
  * @param {*} req 
  * @param {*} res 
  */
 module.exports.createCours = (req, res) => {
 
-    // Récupération des informations utilisateur
+    // Récupération des informations du cours
     var intitule = req.body.intitule;
     var debut = req.body.debut;
     var fin = req.body.fin;
-    //var matiereId = req.body.matiereId;
-    //var salleId = req.body.salleId;
-    //var intervenantId = req.body.intervenantId;
+    var matiereId = req.body.matiereId;
+    var salleId = req.body.salleId;
+    var intervenantId = req.body.intervenantId;
 
+    console.log(new Date());
 
-    // Vérifie la présence de l'utilisateur en base de données
-    models.Cours.findOne({
-        where: { intitule: intitule}
+    var newCours = models.Cours.create({
+        intitule: intitule,
+        debut: debut,
+        fin: fin,
+        matiereId: matiereId,
+        salleId: salleId,
+        intervenantId: intervenantId
     })
-    .then( ( coursFound ) => {
-        if ( !coursFound ) {
-            var newEcole = models.Cours.create({
-                intitule: intitule,
-                debut: debut,
-                fin: fin,
-                //matiereId: matiereId
-                //salleId: salleId,
-                //intervenantId: intervenantId
-
-            })
-            .then ( (newCours) => {
-                return res.status(200).json({ 
-                    'success': true,
-                    'message': `Cours ${newCours.intitule} correctly registered`
-                })
-            })
-            .catch( (err) => {
-                console.log(err);
-                return res.status(500).json({ 
-                    'success': false,
-                    'message': 'Cours can\'t be registered'
-                })
-            })
-        } else {
-            return res.status(409).json({ 
-                'success': false,
-                'message': 'Cours already exist'
-             });
-        }
+    .then ( (newCours) => {
+        return res.status(200).json({ 
+            success: true,
+            message: `Lesson ${newCours.intitule} correctly registered`
+        })
     })
     .catch( (err) => {
         console.log(err);
         return res.status(500).json({ 
-            'success': false,
-            'message': 'Cours to verify user'
-        });
-    });
+            success: false,
+            message: 'Lesson can\'t be registered',
+            error: err
+        })
+    })
 };
 
 /**
- * Retourne la liste des écoles
+ * Retourne la liste des cours
  * @param {*} req
  * @param {*} res 
  */
 module.exports.getAllCours = (req, res) => {
+
     models.Cours.findAll()
     .then( ( CoursFound ) => {
         if ( CoursFound ) {
@@ -84,7 +64,7 @@ module.exports.getAllCours = (req, res) => {
         } else {
             return res.status(409).json({ 
                 success: false,
-                message: 'No Cours found' 
+                message: 'No lesson found' 
             });
         }
     })
@@ -92,7 +72,7 @@ module.exports.getAllCours = (req, res) => {
         console.log(err);
         return res.status(500).json({ 
             success: false,
-            message: 'Unable to find Cours'
+            message: 'Unable to find lesson'
         });
     });
 };
@@ -103,6 +83,7 @@ module.exports.getAllCours = (req, res) => {
  * @param {*} res 
  */
 module.exports.getCours = (req, res) => {
+    
     models.Cours.findOne({
         where: { id: req.params.id }
     })
@@ -110,12 +91,12 @@ module.exports.getCours = (req, res) => {
         if ( coursFound ) {
             return res.status(201).json({ 
                 success: true,
-                school: coursFound
+                lesson: coursFound
             });
         } else {
             return res.status(409).json({ 
                 success: false,
-                message: 'Cours can\'t be found' 
+                message: 'Lesson can\'t be found' 
             });
         }
     })
@@ -123,43 +104,59 @@ module.exports.getCours = (req, res) => {
         console.log(err);
         return res.status(500).json({ 
             success: false,
-            message: 'Unable to find Cours'
+            message: 'Unable to find lesson'
         });
     });
 };
 
 /**
- * Met à jour une école grace à l'Id
+ * Met à jour un cours grace à l'Id
  * @param {*} req
  * @param {*} res 
  */
 module.exports.updateCours = (req, res) => {
+    
+    // Récupération des informations utilisateur
+    var intitule = req.body.intitule;
+    var debut = req.body.debut;
+    var fin = req.body.fin;
+    var matiereId = req.body.matiereId;
+    var salleId = req.body.salleId;
+    var intervenantId = req.body.intervenantId;
 
-    models.Ecole.findById( req.params.id )
+    models.Cours.findById( req.params.id )
     .then( ( coursFound ) => {
         if ( coursFound ) {
             models.Cours.update(
-                { intitule: req.body.intitule, },
+                { 
+                    intitule: intitule,
+                    debut: debut,
+                    fin: fin,
+                    matiereId: matiereId,
+                    salleId: salleId,
+                    intervenantId: intervenantId
+                },
                 { where: { id: req.params.id } }
             )
             .then( (updatedCours) => {
                 return res.status(200).json({ 
                     success: true,
-                    message: 'Cours updated successfully',
-                    updatedSchool: updatedCours
+                    message: 'Lesson updated successfully',
+                    updatedLesson: updatedCours
                 })
             })
             .catch( (err) => {
                 console.log(err);
                 return res.status(500).json({ 
                     success: false,
-                    message: 'Unable to update Cours'
+                    message: 'Unable to update lesson',
+                    error: err
                 })
             }); 
         } else {
             return res.status(409).json({ 
                 success: false,
-                message: 'Cours can\'t be found' 
+                message: 'Lesson can\'t be found' 
             });
         }
     })
@@ -167,7 +164,7 @@ module.exports.updateCours = (req, res) => {
         console.log(err);
         return res.status(500).json({ 
             success: false,
-            message: 'Unable to find Cours'
+            message: 'Unable to find lesson'
         });
     });
 };
@@ -189,28 +186,28 @@ module.exports.deleteCoursById = (req, res) => {
             .then( (deletedCours) => {
                 return res.status(200).json({ 
                     success: true,
-                    message: 'Cours deleted',
-                    school: deletedCours
+                    message: 'Lesson deleted',
+                    lesson: coursFound
                 });
             })
             .catch( (err) => {
                 return res.status(500).json({ 
                     success: false,
-                    message: 'Unable to delete cours'
+                    message: 'Unable to delete lesson'
                 });
             });
 
         } else {
             return res.status(409).json({ 
                 success: false,
-                message: 'Cours can\'t be found' 
+                message: 'Lesson can\'t be found' 
             });
         }
     })
     .catch( (err) => {
         return res.status(500).json({ 
             success: false,
-            message: 'Unable to find cours'
+            message: 'Unable to find lesson'
         });
     });
 };

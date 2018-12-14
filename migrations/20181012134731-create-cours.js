@@ -26,7 +26,7 @@ module.exports = {
         }
       },
       salleId: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.INTEGER,
         references:{
           model:'Salles',
@@ -34,7 +34,7 @@ module.exports = {
         }
       },
       intervenantId: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.INTEGER,
         references:{
           model:'Users',

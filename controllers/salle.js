@@ -1,8 +1,6 @@
 // Appel des variables d'environnement
 require('dotenv').config();
-// Appel des packages
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+
 // Appel des models
 const models = require('../models');
 
@@ -14,18 +12,18 @@ const models = require('../models');
  */
 module.exports.createSalle = (req, res) => {
 
-    // Récupération des informations utilisateur
+    // Récupération des informations de la salle
     var numero = req.body.numero;
     var etage = req.body.etage;
     var description = req.body.description;
     var batiment = req.body.batiment;
 
-    // Vérifie la présence de l'utilisateur en base de données
+    // Vérifie la présence de la salle en base de données
     models.Salle.findOne({
         where: { numero: numero }
     })
-    .then( ( ecoleFound ) => {
-        if ( !ecoleFound ) {
+    .then( ( salleFound ) => {
+        if ( !salleFound ) {
             var newSalle = models.Salle.create({
                 numero: numero,
                 etage: etage,
@@ -34,29 +32,29 @@ module.exports.createSalle = (req, res) => {
             })
             .then ( (newSalle) => {
                 return res.status(200).json({ 
-                    'success': true,
-                    'message': `Room ${newSalle.numero} correctly registered`
+                    success: true,
+                    message: `Room ${newSalle.numero} correctly registered`
                 })
             })
             .catch( (err) => {
                 console.log(err);b
                 return res.status(500).json({ 
-                    'success': false,
-                    'message': 'Room can\'t be registered'
+                    success: false,
+                    message: 'Room can\'t be registered'
                 })
             })
         } else {
             return res.status(409).json({ 
-                'success': false,
-                'message': 'Room already exist'
+                success: false,
+                message: 'Room already exist'
              });
         }
     })
     .catch( (err) => {
         console.log(err);
         return res.status(500).json({ 
-            'success': false,
-            'message': 'Unable to verify room'
+            success: false,
+            message: 'Unable to verify room'
         });
     });
 };
@@ -100,11 +98,11 @@ module.exports.getSalle = (req, res) => {
     models.Salle.findOne({
         where: { id: req.params.id }
     })
-    .then( ( ecoleFound ) => {
-        if ( ecoleFound ) {
+    .then( ( salleFound ) => {
+        if ( salleFound ) {
             return res.status(201).json({ 
                 success: true,
-                room: ecoleFound
+                room: salleFound
             });
         } else {
             return res.status(409).json({ 
@@ -130,8 +128,8 @@ module.exports.getSalle = (req, res) => {
 module.exports.updateSalle = (req, res) => {
 
     models.Salle.findById( req.params.id )
-    .then( ( ecoleFound ) => {
-        if ( ecoleFound ) {
+    .then( ( salleFound ) => {
+        if ( salleFound ) {
             models.Salle.update(
                 { 
                     numero: req.body.numero,
@@ -166,7 +164,7 @@ module.exports.updateSalle = (req, res) => {
         console.log(err);
         return res.status(500).json({ 
             success: false,
-            message: 'Unable to find user'
+            message: 'Unable to find room'
         });
     });
 };
@@ -180,8 +178,8 @@ module.exports.deleteSalleById = (req, res) => {
     models.Salle.findOne({
         where: { id: req.params.id }
     })
-    .then( ( ecoleFound ) => {
-        if ( ecoleFound ) {
+    .then( ( salleFound ) => {
+        if ( salleFound ) {
             models.Salle.destroy({
                 where : {id: req.params.id}
             })
@@ -189,7 +187,7 @@ module.exports.deleteSalleById = (req, res) => {
                 return res.status(200).json({ 
                     success: true,
                     message: 'Room deleted',
-                    room: deletedSalle
+                    room: salleFound
                 });
             })
             .catch( (err) => {

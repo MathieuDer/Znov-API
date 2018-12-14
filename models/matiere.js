@@ -1,7 +1,8 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Matiere = sequelize.define('Matiere', {
-    intitule: DataTypes.STRING
+    intitule: DataTypes.STRING,
+    moduleId: DataTypes.INTEGER
   }, {});
   Matiere.associate = function(models) {
     models.Matiere.belongsTo(models.Module, {

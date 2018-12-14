@@ -14,6 +14,10 @@ module.exports = {
       present: {
         type: Sequelize.TINYINT
       },
+      justificatif: {
+        allowNull: true,
+        type: Sequelize.STRING
+      },
       coursId: {
         allowNull: false,
         type: Sequelize.INTEGER,
