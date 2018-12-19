@@ -20,8 +20,6 @@ module.exports.createCours = (req, res) => {
     var salleId = req.body.salleId;
     var intervenantId = req.body.intervenantId;
 
-    console.log(new Date());
-
     var newCours = models.Cours.create({
         intitule: intitule,
         debut: debut,
@@ -37,7 +35,6 @@ module.exports.createCours = (req, res) => {
         })
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Lesson can\'t be registered',
@@ -69,7 +66,6 @@ module.exports.getAllCours = (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to find lesson'
@@ -101,7 +97,6 @@ module.exports.getCours = (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to find lesson'
@@ -146,7 +141,6 @@ module.exports.updateCours = (req, res) => {
                 })
             })
             .catch( (err) => {
-                console.log(err);
                 return res.status(500).json({ 
                     success: false,
                     message: 'Unable to update lesson',
@@ -161,7 +155,6 @@ module.exports.updateCours = (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to find lesson'

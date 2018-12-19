@@ -36,7 +36,6 @@ module.exports.createBulletin = (req, res) => {
                 })
             })
             .catch( (err) => {
-                console.log(err);
                 return res.status(500).json({ 
                     success: false,
                     message: 'Report can\'t be registered'
@@ -50,7 +49,6 @@ module.exports.createBulletin = (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to verify report'
@@ -80,7 +78,6 @@ module.exports.getAllBulletin = (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to find report'
@@ -111,7 +108,6 @@ module.exports.getBulletin = (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to find report'
@@ -153,7 +149,6 @@ module.exports.updateBulletin = (req, res) => {
                 })
             })
             .catch( (err) => {
-                console.log(err);
                 return res.status(500).json({ 
                     success: false,
                     message: 'Unable to update report'
@@ -167,7 +162,6 @@ module.exports.updateBulletin = (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to find report'

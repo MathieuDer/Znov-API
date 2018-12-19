@@ -30,7 +30,6 @@ module.exports.createEcole = (req, res) => {
                 })
             })
             .catch( (err) => {
-                console.log(err);
                 return res.status(500).json({ 
                     success: false,
                     message: 'School can\'t be registered'
@@ -44,7 +43,6 @@ module.exports.createEcole = (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to verify school'
@@ -74,7 +72,6 @@ module.exports.getAllEcole = (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to find school'
@@ -105,7 +102,6 @@ module.exports.getEcole = (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to find school'
@@ -135,7 +131,6 @@ module.exports.updateEcole = (req, res) => {
                 })
             })
             .catch( (err) => {
-                console.log(err);
                 return res.status(500).json({ 
                     success: false,
                     message: 'Unable to update school'
@@ -149,7 +144,6 @@ module.exports.updateEcole = (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to find school'

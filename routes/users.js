@@ -1,27 +1,25 @@
 var express = require('express');
 var router = express.Router();
 
-const passport = require('passport');
-
 // Appel des controllers
 const UserController = require('../controllers/user');
 
-/* Register */
-router.post('/register', UserController.registerUser);
-
-/* Login */
-router.post('/login', UserController.authenticateUser);
+// Appel du middleware isAdmin
+const isAdmin = require('../middlewares/isAdmin');
 
 /* Get All Users */
-router.get('/', passport.authenticate('jwt', { session: false }), UserController.getAllUsers);
+router.get('/', isAdmin, UserController.getAllUsers);
 
 /* Get Profile */
-router.get('/profiles/:id', passport.authenticate('jwt', { session: false }), UserController.getUserProfile);
+router.get('/profiles/:id', UserController.getUserProfile);
+
+/* Register */
+router.post('/', UserController.registerUser);
 
 /* Update User */
-router.put('/profiles/:id', passport.authenticate('jwt', { session: false }), UserController.updateUserProfile);
+router.put('/profiles/:id', UserController.updateUserProfile);
 
 /* Delete User */
-router.delete('/profiles/:id', passport.authenticate('jwt', { session: false }), UserController.deleteUserById);
+router.delete('/profiles/:id', UserController.deleteUserById);
 
 module.exports = router;

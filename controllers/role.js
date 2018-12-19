@@ -31,7 +31,6 @@ module.exports.createRole = (req, res) => {
                 })
             })
             .catch( (err) => {
-                console.log(err);b
                 return res.status(500).json({ 
                     success: false,
                     message: 'Role can\'t be registered'
@@ -45,7 +44,6 @@ module.exports.createRole = (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to verify role'
@@ -75,7 +73,6 @@ module.exports.getAllRole = (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to find role'
@@ -106,7 +103,6 @@ module.exports.getRole = (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to find role'
@@ -136,7 +132,6 @@ module.exports.updateRole = (req, res) => {
                 })
             })
             .catch( (err) => {
-                console.log(err);
                 return res.status(500).json({ 
                     success: false,
                     message: 'Unable to update role'
@@ -150,7 +145,6 @@ module.exports.updateRole = (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to find role'

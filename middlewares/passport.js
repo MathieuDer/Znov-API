@@ -18,16 +18,12 @@ passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
     })
     .then( ( userFound ) => {
         if (userFound) {
-            console.log(`User Found : ${userFound}`);
             return done(null, userFound);
         } else {
-            console.log(`User not Found`);
-            console.log(`JWT Payload : ${jwt_payload}`)
             return done(null, false);
         }
     })
     .catch( (err) => {
-        console.log(`Error : ${err}`);
         return done(err, false);
     });
 }));

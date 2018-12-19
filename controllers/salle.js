@@ -37,7 +37,6 @@ module.exports.createSalle = (req, res) => {
                 })
             })
             .catch( (err) => {
-                console.log(err);b
                 return res.status(500).json({ 
                     success: false,
                     message: 'Room can\'t be registered'
@@ -51,7 +50,6 @@ module.exports.createSalle = (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to verify room'
@@ -81,7 +79,6 @@ module.exports.getAllSalle = (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to find room'
@@ -112,7 +109,6 @@ module.exports.getSalle = (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to find room'
@@ -147,7 +143,6 @@ module.exports.updateSalle = (req, res) => {
                 })
             })
             .catch( (err) => {
-                console.log(err);
                 return res.status(500).json({ 
                     success: false,
                     message: 'Unable to update room'
@@ -161,7 +156,6 @@ module.exports.updateSalle = (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to find room'

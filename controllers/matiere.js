@@ -32,7 +32,6 @@ module.exports.createMatiere= (req, res) => {
                     })
                 })
                 .catch( (err) => {
-                    console.log(err);
                     return res.status(500).json({ 
                         success: false,
                         message: 'Subject can\'t be registered'
@@ -46,7 +45,6 @@ module.exports.createMatiere= (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to verify Subject'
@@ -78,7 +76,6 @@ module.exports.getAllMatiere= (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to find subject'
@@ -109,7 +106,6 @@ module.exports.getMatiere = (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to find Subject'
@@ -145,7 +141,6 @@ module.exports.updateMatiere= (req, res) => {
                 })
             })
             .catch( (err) => {
-                console.log(err);
                 return res.status(500).json({ 
                     success: false,
                     message: 'Unable to update Subject'
@@ -159,7 +154,6 @@ module.exports.updateMatiere= (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to find subject'

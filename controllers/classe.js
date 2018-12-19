@@ -33,7 +33,6 @@ module.exports.createClasse = (req, res) => {
                 })
             })
             .catch( (err) => {
-                console.log(err);
                 return res.status(500).json({ 
                     success: false,
                     message: 'Class can\'t be registered'
@@ -47,7 +46,6 @@ module.exports.createClasse = (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to verify class'
@@ -78,7 +76,6 @@ module.exports.getAllClasse = (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to find class'
@@ -110,7 +107,6 @@ module.exports.getClasse = (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to find class'
@@ -140,7 +136,6 @@ module.exports.updateClasse = (req, res) => {
                 })
             })
             .catch( (err) => {
-                console.log(err);
                 return res.status(500).json({ 
                     success: false,
                     message: 'Unable to update class'
@@ -154,7 +149,6 @@ module.exports.updateClasse = (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to find class'

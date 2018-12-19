@@ -19,7 +19,6 @@ module.exports.createModule= (req, res) => {
     })
     .then( ( modulesFound ) => {
         if ( !modulesFound ) {
-            
                 var newModule = models.Module.create({
                     intitule: intitule
                 })
@@ -30,7 +29,6 @@ module.exports.createModule= (req, res) => {
                     })
                 })
                 .catch( (err) => {
-                    console.log(err);
                     return res.status(500).json({ 
                         'success': false,
                         'message': 'Module can\'t be registered'
@@ -44,7 +42,6 @@ module.exports.createModule= (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             'success': false,
             'message': 'Unable to verify module'
@@ -76,7 +73,6 @@ module.exports.getAllModules= (req, res) => {
             }
         })
         .catch( (err) => {
-            console.log(err);
             return res.status(500).json({ 
                 success: false,
                 message: 'Unable to find module'
@@ -108,7 +104,6 @@ module.exports.getModule = (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to find module'
@@ -140,7 +135,6 @@ module.exports.updateModule= (req, res) => {
                 })
             })
             .catch( (err) => {
-                console.log(err);
                 return res.status(500).json({ 
                     success: false,
                     message: 'Unable to update module'
@@ -154,7 +148,6 @@ module.exports.updateModule= (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to find module'

@@ -3,9 +3,9 @@ require('dotenv').config();
 // Appel des packages
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+
 // Appel des models
 const models = require('../models');
-
 
 /**
  * Enregistre un nouvel utilisateur
@@ -57,7 +57,6 @@ module.exports.registerUser = (req, res) => {
                     })
                 })
                 .catch( (err) => {
-                    console.log(err);
                     return res.status(500).json({ 
                         success: false,
                         message: 'User can\'t be registered'
@@ -72,7 +71,6 @@ module.exports.registerUser = (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to verify user'
@@ -100,14 +98,23 @@ module.exports.authenticateUser = (req, res) => {
                     return res.status(200).json({
                         success: true,
                         token: 'Bearer ' + jwt.sign({data: {
-                            userId: userFound.id
+                            userId: userFound.id,
+                            roleId: userFound.roleId
                         }}, process.env.ZNOV_API_SECRET, { expiresIn: 604800 }), 
                         user: {
-                            id: userFound.id,
-                            prenom: userFound.prenom,
-                            nom: userFound.nom,
-                            email_ecole: userFound.email_ecole,
-                            date_naissance: userFound.date_naissance
+                            id :                userFound.id,
+                            prenom :            userFound.prenom,
+                            nom :               userFound.nom,
+                            email_perso :       userFound.email_perso,
+                            email_ecole :       userFound.email_ecole,
+                            telephone :         userFound.telephone,
+                            adresse :           userFound.adresse,
+                            date_naissance :    userFound.date_naissance,
+                            ville_naissance :   userFound.ville_naissance,
+                            classeId :          userFound.classeId,
+                            roleId :            userFound.roleId,
+                            createdAt :         userFound.createdAt,
+                            updatedAt :         userFound.updatedAt 
                         }
                     });
                 } else {
@@ -138,6 +145,7 @@ module.exports.authenticateUser = (req, res) => {
  * @param {*} res 
  */
 module.exports.getAllUsers = (req, res) => {
+
     models.User.findAll({
         attributes: {
             exclude: ['password']
@@ -158,7 +166,6 @@ module.exports.getAllUsers = (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to find user'
@@ -192,7 +199,6 @@ module.exports.getUserProfile = (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to find user'
@@ -234,7 +240,6 @@ module.exports.updateUserProfile = (req, res) => {
                 })
             })
             .catch( (err) => {
-                console.log(err);
                 return res.status(500).json({ 
                     success: false,
                     message: 'Unable to update user',
@@ -249,7 +254,6 @@ module.exports.updateUserProfile = (req, res) => {
         }
     })
     .catch( (err) => {
-        console.log(err);
         return res.status(500).json({ 
             success: false,
             message: 'Unable to find user'
