@@ -14,17 +14,13 @@ module.exports = (sequelize, DataTypes) => {
     roleId: DataTypes.INTEGER
   }, {});
   User.associate = function(models) {
-    // associations can be defined here
-    User.hasMany(models.Bulletin, {
-      as: 'bulletin',
-      foreignKey:'id',
-      constraints: false
-    }),
-    User.hasOne(models.Role, {
-      as: 'role',
-      foreignKey:'id',
-      constraints: false
-    });
+    
+    User.belongsTo(models.Role),
+
+    
+    User.belongsTo(models.Classe),
+    
+    User.belongsToMany(models.Cours, {through: 'bulletins', foreignKey: 'userId', otherKey: 'coursId'});
   };
 
   return User;

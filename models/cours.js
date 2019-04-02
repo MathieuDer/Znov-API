@@ -9,22 +9,14 @@ module.exports = (sequelize, DataTypes) => {
     intervenantId: DataTypes.INTEGER
   }, {});
   Cours.associate = function(models) {
-    // associations can be defined here
-    Cours.hasOne(models.Salle, {
-      as: 'salle',
-      foreignKey:'id',
-      constraints: false
-    }),
-    Cours.hasOne(models.User, {
-      as: 'intervenant',
-      foreignKey:'id',
-      constraints: false
-    }),
-    models.Cours.hasMany(models.Bulletin, {
-      as: 'bulletin',
-      foreignKey:'id',
-      constraints: false
-    });
+
+    Cours.belongsToMany(models.User, {through: 'bulletins', foreignKey: 'coursId', otherKey: 'userId'}),
+
+
+    Cours.belongsTo(models.Matiere)
+
+
+    Cours.belongsTo(models.Salle);
   };
   return Cours;
 };

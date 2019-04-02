@@ -19,7 +19,9 @@ module.exports.createBulletin = (req, res) => {
     var userId = req.body.userId;
 
     // Vérifie la présence du bulletin en base de données
-    models.Bulletin.findOne()
+    models.Bulletin.findOne(
+        { where: { $and: [{coursId: coursId}, {userId: userId}] } }
+    )
     .then( ( bulletinFound ) => {
         if ( !bulletinFound ) {
             var newBulletin = models.Bulletin.create({
@@ -38,7 +40,8 @@ module.exports.createBulletin = (req, res) => {
             .catch( (err) => {
                 return res.status(500).json({ 
                     success: false,
-                    message: 'Report can\'t be registered'
+                    message: 'Report can\'t be registered',
+                    error: err
                 })
             })
         } else {
@@ -51,7 +54,8 @@ module.exports.createBulletin = (req, res) => {
     .catch( (err) => {
         return res.status(500).json({ 
             success: false,
-            message: 'Unable to verify report'
+            message: 'Unable to verify report',
+            error: err
         });
     });
 };

@@ -22,4 +22,9 @@ router.put('/profiles/:id', UserController.updateUserProfile);
 /* Delete User */
 router.delete('/profiles/:id', UserController.deleteUserById);
 
+//Custom routes
+
+/* Get User courses */
+router.get('/:idUser/courses', UserController.getUserCourses)
+
 module.exports = router;

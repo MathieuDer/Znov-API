@@ -35,7 +35,8 @@ module.exports.createClasse = (req, res) => {
             .catch( (err) => {
                 return res.status(500).json({ 
                     success: false,
-                    message: 'Class can\'t be registered'
+                    message: 'Class can\'t be registered',
+                    error: err
                 })
             })
         } else {

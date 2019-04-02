@@ -47,7 +47,8 @@ module.exports.createMatiere= (req, res) => {
     .catch( (err) => {
         return res.status(500).json({ 
             success: false,
-            message: 'Unable to verify Subject'
+            message: 'Unable to verify Subject',
+            error: err
         });
     });
 

@@ -8,6 +8,10 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Salle.associate = function(models) {
     // associations can be defined here
+ 
+
+    Salle.hasMany(models.Cours);
+
   };
   return Salle;
 };

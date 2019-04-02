@@ -5,11 +5,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Ecole.associate = function(models) {
     // associations can be defined here
-    Ecole.hasMany(models.Classe, {
-      as: 'classe',
-      foreignKey:'id',
-      constraints: false
-    });
+
+    Ecole.hasMany(models.Classe);
+    
   };
 
   

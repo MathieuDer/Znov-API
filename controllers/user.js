@@ -59,7 +59,8 @@ module.exports.registerUser = (req, res) => {
                 .catch( (err) => {
                     return res.status(500).json({ 
                         success: false,
-                        message: 'User can\'t be registered'
+                        message: 'User can\'t be registered',
+                        error: err
                     })
                 })
             })
@@ -303,3 +304,45 @@ module.exports.deleteUserById = (req, res) => {
         });
     });
 };
+
+/**
+ * Get Users courses
+ * @param {*} req
+ * @param {*} res 
+ */
+module.exports.getUserCourses = (req, res) => {
+
+    let userId = req.params.idUser;
+    
+    models.Cours.findAll({
+        include: [{
+            model: models.User, 
+            attributes: [],
+            through: {
+                where: { id: userId},
+            }
+        }]
+    })
+    .then( ( coursesFound ) => {
+        if ( coursesFound ) {
+            return res.status(201).json({ 
+                success: true,
+                totalcourses: coursesFound.length,
+                courses: coursesFound
+            });
+        } else {
+            return res.status(409).json({ 
+                success: false,
+                message: 'No courses found' 
+            });
+        }
+    })
+    .catch( (err) => {
+        return res.status(500).json({ 
+            success: false,
+            message: 'Unable to find courses',
+            error: err
+        });
+    });
+};
+
