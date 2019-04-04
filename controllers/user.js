@@ -305,8 +305,11 @@ module.exports.deleteUserById = (req, res) => {
     });
 };
 
+
+/* --- CUSTOM QUERIES --- */
+
 /**
- * Get Users courses
+ * Retourne la liste des cours d'un utilisateur
  * @param {*} req
  * @param {*} res 
  */
@@ -346,3 +349,38 @@ module.exports.getUserCourses = (req, res) => {
     });
 };
 
+/**
+ * Retourne la liste des utilisateurs appartenant à un rôle
+ * @param {*} req
+ * @param {*} res 
+ */
+module.exports.getUsersByRole = (req, res) => {
+
+    models.User.findAll({
+        attributes: {
+            include: [],
+            exclude: ['password']
+        },
+        where: { roleId: req.params.idRole }
+    })
+    .then( ( usersFound ) => {
+        if ( usersFound ) {
+            return res.status(201).json({ 
+                success: true,
+                totalUsers: usersFound.length,
+                user: usersFound
+            });
+        } else {
+            return res.status(409).json({ 
+                success: false,
+                message: 'No user found' 
+            });
+        }
+    })
+    .catch( (err) => {
+        return res.status(500).json({ 
+            success: false,
+            message: 'Unable to find user'
+        });
+    });
+};

@@ -3,6 +3,7 @@ var router = express.Router();
 
 // Appel des controllers
 const RoleController = require('../controllers/role');
+const UserController = require('../controllers/user');
 
 /* Get All Role */
 router.get('/', RoleController.getAllRole);
@@ -18,5 +19,10 @@ router.put('/:id', RoleController.updateRole);
 
 /* Delete Role */
 router.delete('/:id', RoleController.deleteRoleById);
+
+
+/* --- CUSTOM ROUTES --- */
+router.get('/:idRole/users', UserController.getUsersByRole);
+
 
 module.exports = router;
