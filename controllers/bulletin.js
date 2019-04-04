@@ -215,3 +215,59 @@ module.exports.deleteBulletinById = (req, res) => {
         });
     });
 };
+
+
+
+/**
+ * Retourne les informations du dashboard d'un utilisateur
+ * @param {*} req
+ * @param {*} res 
+ */
+module.exports.getReportStatsByUser = (req, res) => {
+
+    models.Bulletin.findAll({
+        where: { userId: req.params.idUser },
+        order: [
+            ['id', 'DESC'],
+        ]
+    })
+    .then( ( reportsFound ) => {
+        if ( reportsFound ) {
+
+            const lastNote = reportsFound[0].note;
+            let accNotes = 0;
+            let cptAbs = 0;
+            let cptAbsInj = 0;
+
+            reportsFound.forEach(report => {
+                accNotes += report.note;
+                if (report.present == 0) {
+                    cptAbs++;
+                    if (report.justificatif == "") {
+                        cptAbsInj++
+                    }
+                }
+            });
+
+
+            return res.status(201).json({ 
+                success: true,
+                lastNote: lastNote,
+                noteAvg: (accNotes / reportsFound.length),
+                AbsTotal: cptAbs,
+                AbsInjTotal: cptAbsInj
+            });
+        } else {
+            return res.status(409).json({ 
+                success: false,
+                message: 'No report found' 
+            });
+        }
+    })
+    .catch( (err) => {
+        return res.status(500).json({ 
+            success: false,
+            message: 'Unable to find report'
+        });
+    });
+};

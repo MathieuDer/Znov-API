@@ -386,7 +386,7 @@ module.exports.getUsersByRole = (req, res) => {
 };
 
 /**
- * Retourne la liste des utilisateurs appartenant à un rôle
+ * Retourne la liste des utilisateurs appartenant à une classe
  * @param {*} req
  * @param {*} res 
  */

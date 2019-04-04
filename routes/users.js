@@ -3,6 +3,7 @@ var router = express.Router();
 
 // Appel des controllers
 const UserController = require('../controllers/user');
+const BulletinController = require('../controllers/bulletin');
 
 // Appel du middleware isAdmin
 const isAdmin = require('../middlewares/isAdmin');
@@ -22,9 +23,15 @@ router.put('/profiles/:id', UserController.updateUserProfile);
 /* Delete User */
 router.delete('/profiles/:id', UserController.deleteUserById);
 
-//Custom routes
+// Custom routes
 
 /* Get User courses */
 router.get('/:idUser/courses', UserController.getUserCourses)
+
+/* Get User courses */
+router.get('/:idUser/courses', UserController.getUserCourses)
+
+/* Get User reports stats */
+router.get('/:idUser/reports/stats', BulletinController.getReportStatsByUser);
 
 module.exports = router;
