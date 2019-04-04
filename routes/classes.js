@@ -3,6 +3,7 @@ var router = express.Router();
 
 // Appel des controllers
 const ClasseController = require('../controllers/classe');
+const UserController = require('../controllers/user')
 
 /* Get All Modules */
 router.get('/', ClasseController.getAllClasse);
@@ -18,5 +19,10 @@ router.put('/:id', ClasseController.updateClasse);
 
 /* Delete Module */
 router.delete('/:id', ClasseController.deleteClasseById);
+
+
+/* --- CUSTOM ROUTES --- */
+router.get('/:idClasse/users', UserController.getUsersByClasse);
+
 
 module.exports = router;

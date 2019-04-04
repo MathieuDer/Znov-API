@@ -359,7 +359,7 @@ module.exports.getUsersByRole = (req, res) => {
     models.User.findAll({
         attributes: {
             include: [],
-            exclude: ['password']
+            exclude: ['password', 'RoleId', 'ClasseId']
         },
         where: { roleId: req.params.idRole }
     })
@@ -369,6 +369,42 @@ module.exports.getUsersByRole = (req, res) => {
                 success: true,
                 totalUsers: usersFound.length,
                 user: usersFound
+            });
+        } else {
+            return res.status(409).json({ 
+                success: false,
+                message: 'No user found' 
+            });
+        }
+    })
+    .catch( (err) => {
+        return res.status(500).json({ 
+            success: false,
+            message: 'Unable to find user'
+        });
+    });
+};
+
+/**
+ * Retourne la liste des utilisateurs appartenant à un rôle
+ * @param {*} req
+ * @param {*} res 
+ */
+module.exports.getUsersByClasse = (req, res) => {
+
+    models.User.findAll({
+        attributes: {
+            include: [],
+            exclude: ['password', 'RoleId', 'ClasseId']
+        },
+        where: { classeId: req.params.idClasse }
+    })
+    .then( ( usersFound ) => {
+        if ( usersFound ) {
+            return res.status(201).json({ 
+                success: true,
+                totalUsers: usersFound.length,
+                users: usersFound
             });
         } else {
             return res.status(409).json({ 
